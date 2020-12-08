@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:title="TOP RATED"
+            android:id="@+id/tvtoprated"
+            android:icon="@drawable/ic_baseline_tv_24"/>
+
+        <item
+            android:title="POPULAR_TV"
+            android:id="@+id/tvpopular"
+            android:icon="@drawable/ic_baseline_tv_24"/>
+
+        <item
+            android:title="ONAIR_TV"
+            android:id="@+id/tvonair"
+            android:icon="@drawable/ic_baseline_live_tv_24"/>
+
+        <item
+            android:title="TV_AIRING"
+            android:id="@+id/tvairing"
+            android:icon="@drawable/ic_baseline_live_tv_24"/>
+        <item
+            android:title="Exit"
+            android:id="@+id/exit"
+            android:icon="@drawable/ic_baseline_exit_to_app_24"/>
+
+
+
+
+
+
+
+    </group>
+</menu>
