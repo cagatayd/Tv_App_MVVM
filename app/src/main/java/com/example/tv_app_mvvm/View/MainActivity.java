@@ -1,8 +1,10 @@
-package com.example.tv_app_mvvm;
+package com.example.tv_app_mvvm.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.tv_app_mvvm.R;
 
 public class MainActivity extends AppCompatActivity {
 
