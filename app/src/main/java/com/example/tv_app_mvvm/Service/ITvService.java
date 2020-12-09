@@ -29,5 +29,5 @@ public interface ITvService {
     Observable<Tv_Detail>getTvDetail(@Path("tv_id") int tv_id);
 
    @GET(AppContant.TV_SEARCH+AppContant.API_KEY)
-    Observable<TvSearch>getTvSearch(@Query("query") String query);
+    Observable<BaseResponse>getTvSearch(@Query("query") String query);
 }

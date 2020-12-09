@@ -4,21 +4,38 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.tv_app_mvvm.Adapter.TvAdapter;
+import com.example.tv_app_mvvm.Listener.OnTvItemClickListener;
+import com.example.tv_app_mvvm.Model.Response.BaseResponse;
+import com.example.tv_app_mvvm.Model.Response.TvList;
 import com.example.tv_app_mvvm.R;
+import com.example.tv_app_mvvm.ViewModel.MainViewModel;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity  implements OnTvItemClickListener {
 
     private ActionBarDrawerToggle mToggle;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private RecyclerView recyclerView;
+    GridLayoutManager gridLayoutManager;
+    MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +52,21 @@ public class MainActivity extends AppCompatActivity {
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        gridLayoutManager=new GridLayoutManager(getApplicationContext(),2);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
+
+        mainViewModel.getTopratedTvList().observe(this, new Observer<BaseResponse>() {
+            @Override
+            public void onChanged(BaseResponse baseResponse) {
+                loadTvList(baseResponse.getResults());
+            }
+        });
+
+
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -43,22 +75,43 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.tvtoprated:
-                        Toast.makeText(MainActivity.this,"TV TOPRATED",Toast.LENGTH_LONG).show();
+                        mainViewModel.getTopratedTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+                            }
+                        });
+
                         drawerLayout.closeDrawers();
                         return false;
 
                     case R.id.tvpopular:
-                        Toast.makeText(MainActivity.this,"TV POPULER",Toast.LENGTH_LONG).show();
+                        mainViewModel.getPopularTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+                            }
+                        });
                         drawerLayout.closeDrawers();
                         return false;
 
                     case R.id.tvonair:
-                        Toast.makeText(MainActivity.this,"TV ONAİR",Toast.LENGTH_LONG).show();
+                        mainViewModel.getOnairTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+                            }
+                        });
                         drawerLayout.closeDrawers();
                         return false;
 
                     case R.id.tvairing:
-                        Toast.makeText(MainActivity.this,"TV OnAiring",Toast.LENGTH_LONG).show();
+                        mainViewModel.getOnAiringTodayTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+                            }
+                        });
                         drawerLayout.closeDrawers();
                         return false;
 
@@ -77,5 +130,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadTvList(List<TvList> tvLists){
 
+        TvAdapter tvAdapter = new TvAdapter((ArrayList<TvList>)tvLists,this,getApplicationContext());
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(tvAdapter);
+        tvAdapter.notifyDataSetChanged();
+//        showProgressBar();
+    }
+
+
+    @Override
+    public void onClick(int tvId) {
+
+    }
 }
