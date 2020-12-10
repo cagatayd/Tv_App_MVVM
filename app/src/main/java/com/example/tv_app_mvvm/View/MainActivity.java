@@ -3,6 +3,7 @@ package com.example.tv_app_mvvm.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.tv_app_mvvm.Adapter.TvAdapter;
 import com.example.tv_app_mvvm.Listener.OnTvItemClickListener;
+import com.example.tv_app_mvvm.Listener.PaginationsScrollListener;
 import com.example.tv_app_mvvm.Model.Response.BaseResponse;
 import com.example.tv_app_mvvm.Model.Response.TvList;
 import com.example.tv_app_mvvm.R;
@@ -38,8 +40,13 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private RecyclerView recyclerView;
+    private static final int PAGE_START=1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int currentPage = PAGE_START;
     GridLayoutManager gridLayoutManager;
     MainViewModel mainViewModel;
+    byte type=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +68,80 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
 
         mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
 
-        mainViewModel.getTopratedTvList().observe(this, new Observer<BaseResponse>() {
+        mainViewModel.getTopratedTvList(currentPage).observe(this, new Observer<BaseResponse>() {
             @Override
             public void onChanged(BaseResponse baseResponse) {
                 loadTvList(baseResponse.getResults());
+            }
+        });
+
+        recyclerView.addOnScrollListener(new PaginationsScrollListener(gridLayoutManager) {
+            @Override
+            protected boolean isLoading() {
+                return isLoading;
+            }
+
+
+            @Override
+            protected boolean isLastPage() {
+                return false;
+            }
+
+            @Override
+            protected void loadMoreItems() {
+
+                isLoading = true;
+                currentPage += 1;
+
+                switch (type) {
+                    case 1:
+                        mainViewModel.getTopratedTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+
+                                //hideProgressBar();
+                                isLoading = false;
+                            }
+                        });
+                        break;
+                    case 2:
+                        mainViewModel.getPopularTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+
+                                //hideProgressBar();
+                                isLoading = false;
+                            }
+                        });
+
+
+                        break;
+
+                    case 3:
+
+                        mainViewModel.getOnairTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+
+                                //hideProgressBar();
+                                isLoading = false;
+                            }
+                        });
+                        break;
+                    case 4:
+                        mainViewModel.getOnAiringTodayTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
+                            @Override
+                            public void onChanged(BaseResponse baseResponse) {
+                                loadTvList(baseResponse.getResults());
+                                //hideProgressBar();
+                                isLoading = false;
+                            }
+                        });
+                        break;
+                }
             }
         });
 
@@ -81,7 +158,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                 switch (item.getItemId())
                 {
                     case R.id.tvtoprated:
-                        mainViewModel.getTopratedTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                        mainViewModel.getTopratedTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
                                 loadTvList(baseResponse.getResults());
@@ -92,7 +169,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                         return false;
 
                     case R.id.tvpopular:
-                        mainViewModel.getPopularTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                        mainViewModel.getPopularTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
                                 loadTvList(baseResponse.getResults());
@@ -102,7 +179,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                         return false;
 
                     case R.id.tvonair:
-                        mainViewModel.getOnairTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                        mainViewModel.getOnairTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
                                 loadTvList(baseResponse.getResults());
@@ -112,13 +189,17 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                         return false;
 
                     case R.id.tvairing:
-                        mainViewModel.getOnAiringTodayTvList().observe(MainActivity.this, new Observer<BaseResponse>() {
+                        mainViewModel.getOnAiringTodayTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
                                 loadTvList(baseResponse.getResults());
                             }
                         });
                         drawerLayout.closeDrawers();
+                        return false;
+                    case R.id.exit:
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        MainActivity.super.onDestroy();
                         return false;
 
                 }
@@ -127,6 +208,8 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         });
         
     }
+
+
     private void getResultOfSearch(String query){
         mainViewModel.getTvSearch(query).observe(MainActivity.this, new Observer<BaseResponse>() {
             @Override

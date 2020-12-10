@@ -13,16 +13,16 @@ import retrofit2.http.Query;
 public interface ITvService {
 
     @GET(AppContant.TOP_RATED_TV+AppContant.API_KEY)
-    Observable<BaseResponse> getTopratedTvList();
+    Observable<BaseResponse> getTopratedTvList(@Query("page") int PageIndex);
 
    @GET(AppContant.POPULAR_TV+AppContant.API_KEY)
-    Observable<BaseResponse>getPopularTvList();
+    Observable<BaseResponse>getPopularTvList(@Query("page") int PageIndex);
 
    @GET(AppContant.ONAIR_TV+AppContant.API_KEY)
-    Observable<BaseResponse>getOnAirTvList();
+    Observable<BaseResponse>getOnAirTvList(@Query("page") int PageIndex);
 
    @GET(AppContant.TV_AIRING+AppContant.API_KEY)
-    Observable<BaseResponse>getTvAiringList();
+    Observable<BaseResponse>getTvAiringList(@Query("page") int PageIndex);
 
 
    @GET(AppContant.TV_DETAIL+AppContant.API_KEY)

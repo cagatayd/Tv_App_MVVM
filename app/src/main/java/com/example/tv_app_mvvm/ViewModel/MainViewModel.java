@@ -14,17 +14,17 @@ public class MainViewModel extends AndroidViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
-    public MutableLiveData<BaseResponse>getTopratedTvList(){
-        return TvRepository.getInstance().getTopRatedTvList();
+    public MutableLiveData<BaseResponse>getTopratedTvList(int pageIndex){
+        return TvRepository.getInstance().getTopRatedTvList( pageIndex);
     }
-    public MutableLiveData<BaseResponse>getPopularTvList(){
-        return TvRepository.getInstance().getPopulartvList();
+    public MutableLiveData<BaseResponse>getPopularTvList(int pageIndex){
+            return TvRepository.getInstance().getPopulartvList( pageIndex);
     }
-    public MutableLiveData<BaseResponse>getOnairTvList(){
-        return TvRepository.getInstance().getOnairtvList();
+    public MutableLiveData<BaseResponse>getOnairTvList(int pageIndex){
+        return TvRepository.getInstance().getOnairtvList(pageIndex);
     }
-    public MutableLiveData<BaseResponse>getOnAiringTodayTvList(){
-        return TvRepository.getInstance().getOnairingtodaytvList();
+    public MutableLiveData<BaseResponse>getOnAiringTodayTvList(int pageIndex){
+        return TvRepository.getInstance().getOnairingtodaytvList( pageIndex);
     }
     public MutableLiveData<BaseResponse>getTvSearch(String query){
         return TvRepository.getInstance().getTvSearch(query);

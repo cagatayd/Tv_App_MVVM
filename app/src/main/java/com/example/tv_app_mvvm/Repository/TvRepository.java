@@ -53,8 +53,8 @@ public class TvRepository {
         return tvRepositoryinstance;
     }
 
-    public MutableLiveData<BaseResponse>  getTopRatedTvList() {
-        iTvService.getTopratedTvList()
+    public MutableLiveData<BaseResponse>  getTopRatedTvList(int pageIndex) {
+        iTvService.getTopratedTvList(pageIndex)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<BaseResponse>() {
@@ -84,8 +84,8 @@ public class TvRepository {
 
     }
 
-    public MutableLiveData<BaseResponse>getPopulartvList(){
-        iTvService.getPopularTvList()
+    public MutableLiveData<BaseResponse>getPopulartvList(int pageIndex){
+        iTvService.getPopularTvList(pageIndex)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<BaseResponse>() {
@@ -115,8 +115,8 @@ public class TvRepository {
     }
 
 
-    public MutableLiveData<BaseResponse>getOnairtvList(){
-        iTvService.getOnAirTvList()
+    public MutableLiveData<BaseResponse>getOnairtvList(int pageIndex){
+        iTvService.getOnAirTvList(pageIndex)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<BaseResponse>() {
@@ -145,8 +145,8 @@ public class TvRepository {
         return onairtv;
     }
 
-    public MutableLiveData<BaseResponse>getOnairingtodaytvList(){
-        iTvService.getTvAiringList()
+    public MutableLiveData<BaseResponse>getOnairingtodaytvList(int pageIndex){
+        iTvService.getTvAiringList(pageIndex)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<BaseResponse>() {
