@@ -3,4 +3,10 @@
 
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+
+    <string name="orginalname">Orginal Name : </string>
+    <string name="popularity"> Popularity : </string>
+    <string name="orginallanguage">Orginal Language : </string>
+    <string name="first_air_date">First Air Date : </string>
+    <string name="releasedate">Release Date : </string>
 </resources>

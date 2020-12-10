@@ -8,17 +8,27 @@ public class Tv_Detail {
     public String name;
     public String overview;
     public double popularity;
+    public String first_air_date;
     public Object backdrop_path;
 
-    public Tv_Detail(String original_language, String original_name, String name, String overview, double popularity, Object backdrop_path) {
+    public Tv_Detail(String first_air_date,String original_language, String original_name, String name, String overview, double popularity, Object backdrop_path) {
         this.original_language = original_language;
         this.original_name = original_name;
         this.name = name;
         this.overview = overview;
         this.popularity = popularity;
         this.backdrop_path = backdrop_path;
+        this.first_air_date=first_air_date;
+
     }
 
+    public String getFirst_air_date() {
+        return first_air_date;
+    }
+
+    public void setFirst_air_date(String first_air_date) {
+        this.first_air_date = first_air_date;
+    }
 
     public String getOriginal_language() {
         return original_language;

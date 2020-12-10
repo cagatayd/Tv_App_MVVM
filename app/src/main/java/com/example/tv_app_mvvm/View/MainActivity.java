@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -144,6 +145,10 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
 
     @Override
     public void onClick(int tvId) {
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("tvId", tvId);
+        startActivity(intent);
 
     }
 }
