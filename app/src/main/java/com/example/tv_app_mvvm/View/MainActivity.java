@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Movie;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.tv_app_mvvm.Adapter.TvAdapter;
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                 loadTvList(baseResponse.getResults());
             }
         });
+
+
 
 
 
@@ -121,6 +126,39 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
             }
         });
         
+    }
+    private void getResultOfSearch(String query){
+        mainViewModel.getTvSearch(query).observe(MainActivity.this, new Observer<BaseResponse>() {
+            @Override
+            public void onChanged(BaseResponse baseResponse) {
+                loadTvList(baseResponse.getResults());
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.search_menu,menu);
+        MenuItem item=menu.findItem(R.id.search_tvshow);
+        SearchView searchView=(SearchView)item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getResultOfSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getResultOfSearch(newText);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
