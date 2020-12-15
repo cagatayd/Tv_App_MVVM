@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity  implements OnTvItemClickListener {
 
     private ActionBarDrawerToggle mToggle;
+    private ProgressBar progressBar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private RecyclerView recyclerView;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         recyclerView = findViewById(R.id.recyclerView);
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.navigation_view);
+        progressBar=findViewById(R.id.progressbarr);
 
         mToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.Open,R.string.Close);
         mToggle.setDrawerIndicatorEnabled(true);
@@ -71,7 +75,12 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         mainViewModel.getTopratedTvList(currentPage).observe(this, new Observer<BaseResponse>() {
             @Override
             public void onChanged(BaseResponse baseResponse) {
+
+
+                showProgressBar();
                 loadTvList(baseResponse.getResults());
+                hideProgressBar();
+
             }
         });
 
@@ -100,7 +109,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                             public void onChanged(BaseResponse baseResponse) {
                                 loadTvList(baseResponse.getResults());
 
-                                //hideProgressBar();
+                                hideProgressBar();
                                 isLoading = false;
                             }
                         });
@@ -158,10 +167,13 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                 switch (item.getItemId())
                 {
                     case R.id.tvtoprated:
+                        showProgressBar();
                         mainViewModel.getTopratedTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
+
                                 loadTvList(baseResponse.getResults());
+                                hideProgressBar();
                             }
                         });
 
@@ -169,30 +181,39 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                         return false;
 
                     case R.id.tvpopular:
+                        showProgressBar();
                         mainViewModel.getPopularTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
+
                                 loadTvList(baseResponse.getResults());
+                                hideProgressBar();
                             }
                         });
                         drawerLayout.closeDrawers();
                         return false;
 
                     case R.id.tvonair:
+                        showProgressBar();
                         mainViewModel.getOnairTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
+
                                 loadTvList(baseResponse.getResults());
+                                hideProgressBar();
                             }
                         });
                         drawerLayout.closeDrawers();
                         return false;
 
                     case R.id.tvairing:
+                        showProgressBar();
                         mainViewModel.getOnAiringTodayTvList(currentPage).observe(MainActivity.this, new Observer<BaseResponse>() {
                             @Override
                             public void onChanged(BaseResponse baseResponse) {
+
                                 loadTvList(baseResponse.getResults());
+                                hideProgressBar();
                             }
                         });
                         drawerLayout.closeDrawers();
@@ -260,7 +281,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(tvAdapter);
         tvAdapter.notifyDataSetChanged();
-//        showProgressBar();
+
     }
 
 
@@ -272,4 +293,19 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         startActivity(intent);
 
     }
+
+
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+
+    public void hideProgressBar() {
+        if(progressBar!=null && progressBar.isShown()){
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+
 }
