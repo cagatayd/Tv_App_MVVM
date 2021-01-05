@@ -1,5 +1,8 @@
 package com.example.tv_app_mvvm.Model.Response;
 
+import androidx.room.Entity;
+
+
 public class Tv_Detail {
 
 
@@ -9,9 +12,9 @@ public class Tv_Detail {
     public String overview;
     public double popularity;
     public String first_air_date;
-    public Object backdrop_path;
+    public String backdrop_path;
 
-    public Tv_Detail(String first_air_date,String original_language, String original_name, String name, String overview, double popularity, Object backdrop_path) {
+    public Tv_Detail(String first_air_date,String original_language, String original_name, String name, String overview, double popularity, String backdrop_path) {
         this.original_language = original_language;
         this.original_name = original_name;
         this.name = name;
@@ -70,11 +73,11 @@ public class Tv_Detail {
         this.popularity = popularity;
     }
 
-    public Object getBackdrop_path() {
+    public String getBackdrop_path() {
         return backdrop_path;
     }
 
-    public void setBackdrop_path(Object backdrop_path) {
+    public void setBackdrop_path(String backdrop_path) {
         this.backdrop_path = backdrop_path;
     }
 }

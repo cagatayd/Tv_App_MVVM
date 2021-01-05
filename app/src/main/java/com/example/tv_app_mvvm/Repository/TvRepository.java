@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.tv_app_mvvm.Model.Request.TvSearch;
 import com.example.tv_app_mvvm.Model.Response.BaseResponse;
+import com.example.tv_app_mvvm.Model.Response.TvList;
 import com.example.tv_app_mvvm.Model.Response.Tv_Detail;
 import com.example.tv_app_mvvm.Service.ITvService;
 import com.example.tv_app_mvvm.Util.AppContant;
+import com.example.tv_app_mvvm.View.MainActivity;
 
 
 import io.reactivex.Observer;
@@ -32,6 +34,7 @@ public class TvRepository {
     public MutableLiveData<Tv_Detail>tvdetail=new MutableLiveData<>();
     public MutableLiveData<BaseResponse>searchtv=new MutableLiveData<>();// search te de sonuçlar baseresponstaki gibi dönüyor
 
+    Tv_Detail tv_detail;
     public TvRepository() {
 
         iTvService=new Retrofit.Builder()
@@ -235,6 +238,22 @@ public class TvRepository {
                 });
         return searchtv;
     }
+
+    public void insert(TvList tvList) {
+
+        MainActivity.appDataBase.myDao().tvshowinsert(tvList);
+
+    }
+
+    public void delete(TvList tvList) {
+
+        MainActivity.appDataBase.myDao().tvshowdelete(tvList);
+
+    }
+
+
+
+
 
 
 

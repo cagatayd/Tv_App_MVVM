@@ -24,6 +24,10 @@
             android:id="@+id/tvairing"
             android:icon="@drawable/ic_baseline_live_tv_24"/>
         <item
+            android:title="MY_FAVORİTES"
+            android:id="@+id/myfavorites"
+            android:icon="@drawable/ic_baseline_live_tv_24"/>
+        <item
             android:title="Exit"
             android:id="@+id/exit"
             android:icon="@drawable/ic_baseline_exit_to_app_24"/>

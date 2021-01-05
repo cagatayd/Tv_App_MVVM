@@ -41,6 +41,7 @@ dependencies {
     def retrofitversion='2.9.0'
     def gsonconverterversion='2.9.0'
     def rxjava_retrofit_adapter_version='2.9.0'
+    def room_version = "2.2.5"
 
 
 
@@ -65,5 +66,11 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
+
+    //ROOOMM
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
 }

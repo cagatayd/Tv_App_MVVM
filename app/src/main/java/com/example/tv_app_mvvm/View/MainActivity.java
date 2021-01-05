@@ -3,18 +3,16 @@ package com.example.tv_app_mvvm.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +20,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.tv_app_mvvm.Adapter.TvAdapter;
 import com.example.tv_app_mvvm.Listener.OnTvItemClickListener;
 import com.example.tv_app_mvvm.Listener.PaginationsScrollListener;
+import com.example.tv_app_mvvm.Local.AppDataBase;
 import com.example.tv_app_mvvm.Model.Response.BaseResponse;
 import com.example.tv_app_mvvm.Model.Response.TvList;
 import com.example.tv_app_mvvm.R;
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
     private boolean isLoading = false;
     private boolean isLastPage = false;
     private int currentPage = PAGE_START;
+    public static AppDataBase appDataBase;
     GridLayoutManager gridLayoutManager;
     MainViewModel mainViewModel;
     byte type=1;
@@ -56,19 +55,13 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.navigation_view);
-        progressBar=findViewById(R.id.progressbarr);
+        init();
 
-        mToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.Open,R.string.Close);
-        mToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        gridLayoutManager=new GridLayoutManager(getApplicationContext(),2);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        appDataBase= Room.databaseBuilder(getApplicationContext(),AppDataBase.class,"tvlistdb").allowMainThreadQueries().build();
+
+
 
         mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -218,6 +211,17 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
                         });
                         drawerLayout.closeDrawers();
                         return false;
+
+                    case R.id.myfavorites:
+
+                        Intent intent = new Intent(MainActivity.this, FavoriteActivity.class);
+                        startActivity(intent);
+                        drawerLayout.closeDrawers();
+                        return false;
+
+
+
+
                     case R.id.exit:
                         android.os.Process.killProcess(android.os.Process.myPid());
                         MainActivity.super.onDestroy();
@@ -273,6 +277,21 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         return super.onOptionsItemSelected(item);
     }
 
+    public void init(){
+        recyclerView = findViewById(R.id.recyclerView);
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.navigation_view);
+        progressBar=findViewById(R.id.progressbarr);
+        mToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.Open,R.string.Close);
+        mToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        gridLayoutManager=new GridLayoutManager(getApplicationContext(),2);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+    }
+
     private void loadTvList(List<TvList> tvLists){
 
         TvAdapter tvAdapter = new TvAdapter((ArrayList<TvList>)tvLists,this,getApplicationContext());
@@ -281,16 +300,6 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(tvAdapter);
         tvAdapter.notifyDataSetChanged();
-
-    }
-
-
-    @Override
-    public void onClick(int tvId) {
-
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("tvId", tvId);
-        startActivity(intent);
 
     }
 
@@ -304,6 +313,15 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
         if(progressBar!=null && progressBar.isShown()){
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+
+    @Override
+    public void onClick(int tvid) {
+
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("tvId", tvid);
+            startActivity(intent);
     }
 
 

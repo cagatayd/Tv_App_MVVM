@@ -20,13 +20,14 @@ import java.util.ArrayList;
 
 public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
 
-    ArrayList<TvList>tvLists;
+    ArrayList<TvList>tvListse;
     Context context;
     OnTvItemClickListener listener;
 
+
     public TvAdapter(ArrayList<TvList> tvLists, OnTvItemClickListener listener, Context context) {
         this.listener = listener;
-        this.tvLists = tvLists;
+        this.tvListse = tvLists;
         this.context = context;
     }
 
@@ -41,18 +42,18 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.txtpostertitle.setText(tvLists.get(position).title);
-        holder.txtid.setText(String.valueOf(tvLists.get(position).id));
-
+        holder.txtpostertitle.setText(tvListse.get(position).title);
+        holder.txtid.setText(String.valueOf(tvListse.get(position).id));
         Picasso.Builder builder= new Picasso.Builder(context);
-        builder.build().load(AppContant.BASE_PATH_OF_IMAGE+tvLists.get(position).poster_path).into(holder.imgposter);
+        builder.build().load(AppContant.BASE_PATH_OF_IMAGE+tvListse.get(position).poster_path).into(holder.imgposter);
 
-        holder.setOnClickListener(tvLists.get(position).id);
+        holder.setOnClickListener(tvListse.get(position).id);
+
     }
 
     @Override
     public int getItemCount() {
-        return tvLists.size();
+        return tvListse.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -71,8 +72,8 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
 
         }
 
-        private void setOnClickListener(int id) {
-            itemView.setTag(id);
+        private void setOnClickListener(int ids) {
+            itemView.setTag(ids);
             itemView.setOnClickListener(this);
         }
         @Override
@@ -81,5 +82,9 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.ViewHolder> {
             listener.onClick((int) v.getTag());
 
         }
+
+
+
+
     }
 }
