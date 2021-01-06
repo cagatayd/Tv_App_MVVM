@@ -1,6 +1,6 @@
 package com.example.tv_app_mvvm.Listener;
 
-public interface OnTvItemClickListener2 {
+public interface OnTvItemDeleteClickListener {
 
     void onClick(int tvid);
 }

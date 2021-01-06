@@ -247,6 +247,7 @@ public class TvRepository {
 
     public void delete(TvList tvList) {
 
+
         MainActivity.appDataBase.myDao().tvshowdelete(tvList);
 
     }

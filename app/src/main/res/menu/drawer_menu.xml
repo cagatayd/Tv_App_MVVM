@@ -10,23 +10,23 @@
             android:icon="@drawable/ic_baseline_tv_24"/>
 
         <item
-            android:title="POPULAR_TV"
+            android:title="POPULAR"
             android:id="@+id/tvpopular"
             android:icon="@drawable/ic_baseline_tv_24"/>
 
         <item
-            android:title="ONAIR_TV"
+            android:title="ONAIR"
             android:id="@+id/tvonair"
             android:icon="@drawable/ic_baseline_live_tv_24"/>
 
         <item
-            android:title="TV_AIRING"
+            android:title="TV AIRING"
             android:id="@+id/tvairing"
             android:icon="@drawable/ic_baseline_live_tv_24"/>
         <item
-            android:title="MY_FAVORİTES"
+            android:title="MY FAVORİTES"
             android:id="@+id/myfavorites"
-            android:icon="@drawable/ic_baseline_live_tv_24"/>
+            android:icon="@drawable/ic_baseline_favorite_24"/>
         <item
             android:title="Exit"
             android:id="@+id/exit"

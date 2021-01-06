@@ -24,4 +24,6 @@ public class DetailViewModel extends AndroidViewModel {
         TvRepository.getInstance().insert(tvList);
 
     }
+
+
 }

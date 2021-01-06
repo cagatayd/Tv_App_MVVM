@@ -319,6 +319,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
     @Override
     public void onClick(int tvid) {
 
+
             Intent intent = new Intent(this, DetailActivity.class);
             intent.putExtra("tvId", tvid);
             startActivity(intent);

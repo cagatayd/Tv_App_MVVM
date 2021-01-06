@@ -34,9 +34,6 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView backdropposter;
     private Button btnsave;
     private String imgdata;
-    TvList tvListss;
-    Tv_Detail tv_detail;
-    Bitmap bitmap;
 
     DetailViewModel detailViewModel;
     @Override

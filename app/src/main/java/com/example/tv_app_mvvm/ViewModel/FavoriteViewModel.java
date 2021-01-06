@@ -13,9 +13,9 @@ public class FavoriteViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public  void delete(TvList tvList) {
+    public void delete(TvList tvList)
+    {
         TvRepository.getInstance().delete(tvList);
-
     }
 
 }

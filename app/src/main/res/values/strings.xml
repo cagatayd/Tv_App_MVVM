@@ -9,4 +9,5 @@
     <string name="orginallanguage">Orginal Language : </string>
     <string name="first_air_date">First Air Date : </string>
     <string name="releasedate">Release Date : </string>
+    <string name="delete">Delete</string>
 </resources>
