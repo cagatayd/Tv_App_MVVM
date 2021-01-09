@@ -1,5 +1,6 @@
 package com.example.tv_app_mvvm.Repository;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.tv_app_mvvm.Model.Request.TvSearch;
@@ -10,6 +11,8 @@ import com.example.tv_app_mvvm.Service.ITvService;
 import com.example.tv_app_mvvm.Util.AppContant;
 import com.example.tv_app_mvvm.View.MainActivity;
 
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -33,6 +36,8 @@ public class TvRepository {
     public MutableLiveData<BaseResponse>onairingtodaytv=new MutableLiveData<>();
     public MutableLiveData<Tv_Detail>tvdetail=new MutableLiveData<>();
     public MutableLiveData<BaseResponse>searchtv=new MutableLiveData<>();// search te de sonuçlar baseresponstaki gibi dönüyor
+
+
 
     Tv_Detail tv_detail;
     public TvRepository() {
@@ -239,6 +244,9 @@ public class TvRepository {
         return searchtv;
     }
 
+
+
+
     public void insert(TvList tvList) {
 
         MainActivity.appDataBase.myDao().tvshowinsert(tvList);
@@ -246,10 +254,12 @@ public class TvRepository {
     }
 
     public void delete(TvList tvList) {
-
-
         MainActivity.appDataBase.myDao().tvshowdelete(tvList);
 
+    }
+
+    public LiveData<List<TvList>> getTvList(){
+        return MainActivity.appDataBase.myDao().gettvshowlists();
     }
 
 

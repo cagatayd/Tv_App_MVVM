@@ -25,6 +25,7 @@ import com.example.tv_app_mvvm.Model.Response.Tv_Detail;
 import com.example.tv_app_mvvm.R;
 import com.example.tv_app_mvvm.Util.AppContant;
 import com.example.tv_app_mvvm.ViewModel.DetailViewModel;
+import com.example.tv_app_mvvm.ViewModel.FavoriteViewModel;
 
 import java.io.ByteArrayOutputStream;
 
@@ -45,12 +46,15 @@ public class DetailActivity extends AppCompatActivity {
         TvList tvList = new TvList();
 
         int tvId=getIntent().getIntExtra("tvId",0);
-        detailViewModel= ViewModelProviders.of(this).get(DetailViewModel.class);
+
+                detailViewModel = new ViewModelProvider(getViewModelStore(),
+                new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(DetailViewModel.class);
         detailViewModel.getTvDetail(tvId).observe(this, new Observer<Tv_Detail>() {
             @Override
             public void onChanged(Tv_Detail tv_detail) {
                 setDataToView(tv_detail);
                 hideProgressBar();
+
 
             }
         });
@@ -63,7 +67,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 try {
                     String name=txtname.getText().toString();
-
                     tvList.setId(tvId);
                     tvList.setTitle(name);
                     tvList.setPoster_path(imgdata);

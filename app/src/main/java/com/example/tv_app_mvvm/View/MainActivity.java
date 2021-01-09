@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
@@ -28,6 +31,7 @@ import com.example.tv_app_mvvm.Local.AppDataBase;
 import com.example.tv_app_mvvm.Model.Response.BaseResponse;
 import com.example.tv_app_mvvm.Model.Response.TvList;
 import com.example.tv_app_mvvm.R;
+import com.example.tv_app_mvvm.ViewModel.DetailViewModel;
 import com.example.tv_app_mvvm.ViewModel.MainViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         init();
@@ -61,9 +66,8 @@ public class MainActivity extends AppCompatActivity  implements OnTvItemClickLis
 
         appDataBase= Room.databaseBuilder(getApplicationContext(),AppDataBase.class,"tvlistdb").allowMainThreadQueries().build();
 
-
-
-        mainViewModel= ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(getViewModelStore(),
+                new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(MainViewModel.class);
 
         mainViewModel.getTopratedTvList(currentPage).observe(this, new Observer<BaseResponse>() {
             @Override

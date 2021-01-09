@@ -1,6 +1,7 @@
 package com.example.tv_app_mvvm.Local;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -17,7 +18,7 @@ public interface MyDao {
      void tvshowinsert(TvList tvList);
 
     @Query("select * from tvlists")
-     List<TvList> gettvshowlists();
+    LiveData<List<TvList>> gettvshowlists();
 
     @Delete
      void tvshowdelete(TvList tvList);

@@ -1,6 +1,9 @@
 package com.example.tv_app_mvvm.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +17,7 @@ import com.example.tv_app_mvvm.Listener.OnTvItemDeleteClickListener;
 import com.example.tv_app_mvvm.Model.Response.TvList;
 import com.example.tv_app_mvvm.R;
 import com.example.tv_app_mvvm.ViewModel.FavoriteViewModel;
+import com.example.tv_app_mvvm.ViewModel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +30,29 @@ public class FavoriteActivity extends AppCompatActivity implements OnTvItemDelet
     GridLayoutManager gridLayoutManager;
     TvFavoriteAdapter tvFavoriteAdapter;
     private RecyclerView recyclerViewq;
-    List<TvList> tvListse= MainActivity.appDataBase.myDao().gettvshowlists();
+
 
 
     FavoriteViewModel favoriteViewModel;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-
+               favoriteViewModel = new ViewModelProvider(getViewModelStore(),
+                       new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(FavoriteViewModel.class);
+        favoriteViewModel.getTvList().observe(this, new Observer<List<TvList>>() {
+            @Override
+            public void onChanged(List<TvList> tvLists) {
+                loadTvList(tvLists);
+            }
+        });
 
         init();
-
-        loadTvList(tvListse);
-
-
     }
 
     public void init()
@@ -56,9 +66,9 @@ public class FavoriteActivity extends AppCompatActivity implements OnTvItemDelet
     }
 
 
-    private void loadTvList(List<TvList> tvListse){
+    private void loadTvList(List<TvList> tvList){
 
-        tvFavoriteAdapter = new TvFavoriteAdapter((ArrayList<TvList>)tvListse,this,getApplicationContext());
+        tvFavoriteAdapter = new TvFavoriteAdapter((ArrayList<TvList>)tvList,this,getApplicationContext());
         recyclerViewq.setAdapter(tvFavoriteAdapter);
         tvFavoriteAdapter.notifyDataSetChanged();
 
@@ -69,18 +79,8 @@ public class FavoriteActivity extends AppCompatActivity implements OnTvItemDelet
     public void onClick(int tvid) {
 
         TvList tvListdelete = new TvList();
-
         tvListdelete.setId(tvid);
-
-//       favoriteViewModel.delete(tvListdelete);
-
-//
-//       MainActivity.appDataBase.myDao().tvshowdelete(tvListdelete);
-
-
-        Log.d("TAG", "onClick: ============="+tvid);
-
-
+        favoriteViewModel.delete(tvListdelete);
     }
 
 
