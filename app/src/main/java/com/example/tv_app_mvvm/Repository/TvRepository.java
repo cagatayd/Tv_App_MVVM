@@ -74,7 +74,7 @@ public class TvRepository {
                     @Override
                     public void onNext(@NonNull BaseResponse baseResponse) {
 
-                        topratedtv.setValue(baseResponse);
+                        topratedtv.postValue(baseResponse);
                     }
 
                     @Override
@@ -105,7 +105,7 @@ public class TvRepository {
                     @Override
                     public void onNext(@NonNull BaseResponse baseResponse) {
 
-                        populartv.setValue(baseResponse);
+                        populartv.postValue(baseResponse);
                     }
 
                     @Override
@@ -136,7 +136,7 @@ public class TvRepository {
                     @Override
                     public void onNext(@NonNull BaseResponse baseResponse) {
 
-                        onairtv.setValue(baseResponse);
+                        onairtv.postValue(baseResponse);
                     }
 
                     @Override
@@ -166,7 +166,7 @@ public class TvRepository {
                     @Override
                     public void onNext(@NonNull BaseResponse baseResponse) {
 
-                        onairingtodaytv.setValue(baseResponse);
+                        onairingtodaytv.postValue(baseResponse);
                     }
 
                     @Override
@@ -197,7 +197,7 @@ public class TvRepository {
                     @Override
                     public void onNext(@NonNull Tv_Detail tv_detail) {
 
-                        tvdetail.setValue(tv_detail);
+                        tvdetail.postValue(tv_detail);
                     }
 
                     @Override
@@ -228,7 +228,7 @@ public class TvRepository {
                     @Override
                     public void onNext(@NonNull BaseResponse baseResponse) {
 
-                        searchtv.setValue(baseResponse);
+                        searchtv.postValue(baseResponse);
                     }
 
                     @Override
